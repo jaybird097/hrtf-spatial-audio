@@ -56,7 +56,7 @@ def main():
     nfft = int(opts.get('-n',128) )
     usereal = opts.has_key('-r')
 
-    print 'nfft=%d'%nfft
+    print new_func()%nfft
     # make a signal
     sig = make_random( siglen )
     # make an impulse response
@@ -72,16 +72,29 @@ def main():
     #yfast = fastfilter(sig,h,nfft)
     yfast = utilfastfilter(sig,h,nfft,usereal)
     #print yfast
-    print 'len(yslow)=%d'%len(yslow)
+    print new_func1()%len(yslow)
     print 'len(yfast)=%d'%len(yfast)
     diff = yslow-yfast
+    
     snr = 10*log10( abs( vdot(yslow,yslow) / vdot(diff,diff) ) )
+
     print 'snr=%s' % snr
+
     if snr < 10.0:
-        print 'h=',h
+
+        print'h=',h
+
         print 'sig=',sig[:5],'...'
+
         print 'yslow=',yslow[:5],'...'
+
         print 'yfast=',yfast[:5],'...'
+
+def new_func1():
+    return 'len(yslow)=%d'
+
+def new_func():
+    return 'nfft=%d'
 
 def utilfastfilter(sig,h,nfft,usereal):
     import compfft
